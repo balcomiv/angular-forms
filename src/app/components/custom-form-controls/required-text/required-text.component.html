@@ -1,0 +1,7 @@
+<input
+  type="text"
+  #input
+  (input)="onChange($event.target)"
+  (blur)="onTouched()"
+  [disabled]="disabled"
+/>
