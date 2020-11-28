@@ -1,0 +1,9 @@
+<!-- <form>
+  <general></general>
+  <address name="address" ngModel></address>
+</form> -->
+
+<div [formGroup]="form">
+  <input type="text" formControlName="street" />
+  <input type="text" formControlName="city" />
+</div>

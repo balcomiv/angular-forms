@@ -29,3 +29,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Tutorial Links
 
 - https://www.youtube.com/watch?v=CD_t3m2WMM8
+
+## Helpful Links
+
+### Emmet
+
+- https://docs.emmet.io/cheat-sheet/

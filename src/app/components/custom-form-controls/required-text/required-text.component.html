@@ -5,3 +5,8 @@
   (blur)="onTouched()"
   [disabled]="disabled"
 />
+
+<!-- TODO: Can directive handle this in a reactive way? -->
+<div class="error" *ngIf="controlDir && !controlDir.control?.valid">
+  This field is invalid.
+</div>

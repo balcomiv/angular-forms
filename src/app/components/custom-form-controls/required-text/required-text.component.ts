@@ -1,5 +1,12 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, ElementRef, OnInit, Self, ViewChild } from '@angular/core';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  NgControl,
+  Validators,
+} from '@angular/forms';
+
+type Nullable<T> = T | null;
 
 /**
  * @description Requirements
@@ -12,24 +19,48 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   selector: 'app-required-text',
   templateUrl: './required-text.component.html',
   styleUrls: ['./required-text.component.scss'],
-  //  Provide as a ValueAccessor so form control directives (like ngModel && formControlName)
-  //  can actually see the value accessor (I.E. ngModel will inject ValueAccessor token, so if
-  //  it's not in the injection chain, we will have an issue)
+
+  //  Don't provide ValueAccessor or Validation because NgControl already
+  //  does. This would make a circular reference.
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: RequiredTextComponent, // Hoisting
-    },
+    // {
+    //   provide: NG_VALUE_ACCESSOR,
+    //   multi: true,
+    //   useExisting: RequiredTextComponent, // Hoisting
+    // },
   ],
 })
-export class RequiredTextComponent implements ControlValueAccessor {
+export class RequiredTextComponent implements ControlValueAccessor, OnInit {
   @ViewChild('input') input: ElementRef | undefined;
 
+  //  ControlValueAccessor Impl
   disabled = false;
   onChange = (value: string): void => {};
   onTouched = (): void => {};
 
+  constructor(@Self() public controlDir: NgControl) {
+    controlDir.valueAccessor = this;
+  }
+
+  ngOnInit(): void {
+    this.addValidators(this.controlDir.control);
+  }
+
+  //  TODO: Consider putting this in utils
+  addValidators(control: Nullable<AbstractControl>): void {
+    if (!control) {
+      console.log(`${this.constructor}: No control`);
+    }
+
+    const validators = control?.validator
+      ? [control.validator, Validators.required]
+      : Validators.required;
+
+    control?.setValidators(validators);
+    control?.updateValueAndValidity();
+  }
+
+  //#region ControlValueAccessor Implementation
   /**
    * Write value to view
    * @param value value to write
@@ -70,4 +101,5 @@ export class RequiredTextComponent implements ControlValueAccessor {
   setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
+  //#endregion
 }
