@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 /**
  * @description Requirements
- *  Support everything a reqular text field does (implement ControlValueAccessor)
+ *  Support everything a regular text field does (implement ControlValueAccessor)
  *  Required validation
  *  Error message that shows when control is invalid
  *    for any reason

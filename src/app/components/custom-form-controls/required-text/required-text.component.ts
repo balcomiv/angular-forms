@@ -10,7 +10,7 @@ type Nullable<T> = T | null;
 
 /**
  * @description Requirements
- *  Support everything a reqular text field does (implement ControlValueAccessor)
+ *  Support everything a regular text field does (implement ControlValueAccessor)
  *  Required validation
  *  Error message that shows when control is invalid
  *    for any reason
@@ -38,6 +38,8 @@ export class RequiredTextComponent implements ControlValueAccessor, OnInit {
   onChange = (value: string): void => {};
   onTouched = (): void => {};
 
+  //  NgControl => NgModel, FormControlDirective, FormControlName
+  //  See images in assets 'ng-control-hierarchy'
   constructor(@Self() public controlDir: NgControl) {
     controlDir.valueAccessor = this;
   }

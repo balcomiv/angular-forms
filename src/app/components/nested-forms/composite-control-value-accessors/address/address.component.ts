@@ -8,7 +8,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class AddressComponent implements OnInit {
   form = new FormGroup({
-    stree: new FormControl(''),
+    street: new FormControl(''),
     city: new FormControl(''),
   });
 
@@ -23,7 +23,7 @@ export class AddressComponent implements OnInit {
     console.log({ value });
 
     //  '{emitEvent: false} or view to model logic will fire
-    //  and mess up dirtyness
+    //  and mess up dirtiness
     this.form.setValue(value, { emitEvent: false });
   }
 
