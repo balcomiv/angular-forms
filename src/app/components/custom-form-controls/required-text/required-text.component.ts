@@ -20,8 +20,9 @@ type Nullable<T> = T | null;
   templateUrl: './required-text.component.html',
   styleUrls: ['./required-text.component.scss'],
 
-  //  Don't provide ValueAccessor or Validation because NgControl already
-  //  does. This would make a circular reference.
+  //  Don't provide ValueAccessor or Validation as this would make a circular reference.
+  // NgControl injects value accessor && validators, so we can't inject it, if it is also
+  // injecting us.
   providers: [
     // {
     //   provide: NG_VALUE_ACCESSOR,
@@ -40,11 +41,14 @@ export class RequiredTextComponent implements ControlValueAccessor, OnInit {
 
   //  NgControl => NgModel, FormControlDirective, FormControlName
   //  See images in assets 'ng-control-hierarchy'
+  //  @Self in case somebody wraps your form control with their own form control. Don't want to grab theirs.
   constructor(@Self() public controlDir: NgControl) {
+    //  Our job to make sure NgControl is set up with the right valueAccessor and validators
     controlDir.valueAccessor = this;
   }
 
   ngOnInit(): void {
+    //  Our job to make sure NgControl is set up with the right valueAccessor and validators
     this.addValidators(this.controlDir.control);
   }
 

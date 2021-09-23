@@ -22,8 +22,8 @@ export class AddressComponent implements OnInit {
   writeValue(value: object): void {
     console.log({ value });
 
-    //  '{emitEvent: false} or view to model logic will fire
-    //  and mess up dirtiness
+    //  '{emitEvent: false} or view to model logic will fire and mess up dirtiness
+    //  Patch value can introduce junk values into form because we are just setting it directly here
     this.form.setValue(value, { emitEvent: false });
   }
 
